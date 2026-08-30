@@ -216,7 +216,7 @@
   </div>
   <div class="hero-actions">
     <a class="button" href="mailto:hello@ibsgirl.example">Email IBS Girl</a>
-    <a class="button button-secondary" href="https://www.instagram.com/sallyroberts230/" target="_blank" rel="noopener noreferrer">Follow me on Instagram</a>
+    <a class="button  href="https://www.instagram.com/sallyroberts230/" target="_blank" rel="noopener noreferrer">Follow me on Instagram</a>
   </div>
 </section>
 </main>
