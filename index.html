@@ -6,15 +6,6 @@
 <title>IBS Girl | My IBS & Gluten-Free Journey</title>
 <meta name="description" content="IBS Girl — honest stories, gluten-free recipes, lunchbox ideas, eating out and everyday life with IBS.">
 <link rel="stylesheet" href="style.css">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2MR2YX0888"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-2MR2YX0888');
-</script>
 </head>
 <body>
 <header>
@@ -223,10 +214,10 @@
     <h2>I'd love to hear from you</h2>
     <p>Have an IBS story, gluten-free tip or recipe idea? Send me a message.</p>
   </div>
-  <a class="button" href="mailto:hello@ibsgirl.example">Email IBS Girl
-  </a>
-  
-<a class="button" href="https://www.instagram.com/sallyroberts230/" target="_blank" rel="noopener noreferrer">Follow me on Instagram</a>
+  <div class="hero-actions">
+    <a class="button" href="mailto:hello@ibsgirl.example">Email IBS Girl</a>
+    <a class="button button-secondary" href="https://www.instagram.com/sallyroberts230/" target="_blank" rel="noopener noreferrer">Follow me on Instagram</a>
+  </div>
 </section>
 </main>
 
@@ -239,5 +230,81 @@ const menu=document.querySelector('.menu'), links=document.querySelector('.links
 menu.addEventListener('click',()=>links.classList.toggle('open'));
 document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
 </script>
+
+<script>
+// IBS Girl section tracking for Google Analytics.
+// The site is one long page, so these virtual page views let Analytics
+// report which stories and recipe sections visitors actually reach.
+(function () {
+  const targets = [
+    { selector: '#about', path: '/my-story', title: 'My Story' },
+    { selector: '#blogs', path: '/blogs', title: 'Blogs' },
+    { selector: '#becoming-gluten-free', path: '/blogs/becoming-gluten-free', title: 'Becoming Gluten Free' },
+    { selector: '#eating-out-with-ibs', path: '/blogs/eating-out-with-ibs', title: 'Eating Out With IBS & a Gluten-Free Diet' },
+    { selector: '#recipes', path: '/recipes', title: 'Gluten-Free Recipes' },
+    { selector: '#contact', path: '/contact', title: 'Contact' }
+  ];
+
+  // Add individual recipe tracking without changing the visible design.
+  document.querySelectorAll('.recipe').forEach((recipe) => {
+    const heading = recipe.querySelector('h3');
+    if (!heading) return;
+    const name = heading.textContent.trim();
+    const recipeMap = {
+      'Crispy Gluten-Free Chicken Strips': '/recipes/crispy-gluten-free-chicken-strips',
+      'Crispy Parmesan Leeks': '/recipes/crispy-parmesan-leeks',
+      'Homemade Gluten-Free Breadcrumbs': '/recipes/homemade-gluten-free-breadcrumbs'
+    };
+    if (recipeMap[name]) {
+      recipe.dataset.gaPath = recipeMap[name];
+      recipe.dataset.gaTitle = name;
+    }
+  });
+
+  targets.forEach((item) => {
+    const el = document.querySelector(item.selector);
+    if (el) {
+      el.dataset.gaPath = item.path;
+      el.dataset.gaTitle = item.title;
+    }
+  });
+
+  const sent = new Set();
+
+  function sendVirtualPageView(el, attempt) {
+    const path = el.dataset.gaPath;
+    const title = el.dataset.gaTitle;
+    if (!path || sent.has(path)) return;
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', {
+        page_title: title,
+        page_location: window.location.origin + path,
+        page_path: path
+      });
+      sent.add(path);
+      return;
+    }
+
+    // Analytics may load a little later (for example after consent).
+    if ((attempt || 0) < 20) {
+      setTimeout(function () { sendVirtualPageView(el, (attempt || 0) + 1); }, 500);
+    }
+  }
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) sendVirtualPageView(entry.target, 0);
+      });
+    }, { threshold: 0.18 });
+
+    document.querySelectorAll('[data-ga-path]').forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
