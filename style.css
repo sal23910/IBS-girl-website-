@@ -10,3 +10,19 @@
 
 /* Expanded recipe cards */
 .full-recipe{grid-column:span 1;padding:0;overflow:hidden}.full-recipe .recipe-content{padding:24px}.recipe-photo-placeholder{height:210px;background:linear-gradient(135deg,#f7eef3,#eef5f4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#8d7180;font-weight:700;font-size:2rem;text-align:center;padding:20px}.recipe-photo-placeholder span{font-size:.9rem}.full-recipe h3{font-size:1.35rem}.full-recipe ul,.full-recipe ol{padding-left:20px}.full-recipe li{margin-bottom:7px}@media(max-width:800px){.full-recipe{grid-column:1/-1}.recipe-photo-placeholder{height:190px}}
+.blog-photo{
+  width:100%;
+  max-width:520px;
+  height:auto;
+  display:block;
+  margin:20px auto;
+  border-radius:18px;
+  }
+
+.blog-post-inner{
+  font-size:20px;
+  line-height:1.7;
+}
+
+
+
