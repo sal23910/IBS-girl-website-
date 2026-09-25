@@ -38,5 +38,12 @@
   margin:15px auto;
   border-radius:18px;
 }
+.recipe-grid > details:first-child {
+  min-height: 0;
+  padding: 0;
+}
 
+.recipe-grid > details:first-child summary {
+  padding: 12px 20px;
+}
 
